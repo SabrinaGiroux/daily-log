@@ -23,14 +23,23 @@ Built with React Native (Expo) for iOS and Android.
 
 ### Prerequisites
 
+- Node.js
+- Expo CLI (`npm install -g expo-cli`)
+- A Supabase project ([create one free](https://supabase.com))
+
 ### Setup
 
+```bash
+git clone git@github.com:SabrinaGiroux/daily-log.git
+cd daily-log
+npm install
+cp .env.example .env
+# Fill in the .env file with Supabase credentials
+npx expo start
+```
 
 ## Project structure
 
-
 ## Contributing
 
-
 ## License
-
