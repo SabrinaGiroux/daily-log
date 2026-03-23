@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { ScrollView, StyleSheet, Text, TextInput, View } from 'react-native';
+import { TaskList } from '../components/TaskList';
 
 export default function HomeScreen() {
   const [description, setDescription] = useState('');
@@ -15,6 +16,7 @@ export default function HomeScreen() {
 
       {/* Description*/}
       <TextInput
+        style={styles.description}
         value={description}
         onChangeText={(text) => setDescription(text)}
         placeholder="Describe your day here"
@@ -25,8 +27,9 @@ export default function HomeScreen() {
       />
 
       {/* Daily tasks */}
-      <View style={styles.taskList}>
+      <View>
         <Text style={styles.taskTitle}>Tasks</Text>
+        <TaskList />
       </View>
     </ScrollView>
   );
@@ -60,7 +63,11 @@ const styles = StyleSheet.create({
   taskTitle: {
     fontSize: 26,
   },
-  taskList: {
+  description: {
+    padding: 5,
     marginBottom: 32,
+    borderColor: 'black',
+    borderWidth: 1,
+    borderRadius: 10,
   },
 });

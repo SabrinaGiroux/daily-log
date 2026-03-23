@@ -1,6 +1,6 @@
 import { StyleSheet } from 'react-native';
 
-export const COL_WIDTH = 90;
+export const COL_WIDTH = 100;
 
 export const styles = StyleSheet.create({
   row: {
