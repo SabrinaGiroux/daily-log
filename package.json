@@ -12,7 +12,7 @@
     "prepare": "husky"
   },
   "lint-staged": {
-    "apps/**/*.{ts,tsx}": [
+    "src/**/*.{ts,tsx}": [
       "eslint --fix",
       "prettier --write"
     ],
