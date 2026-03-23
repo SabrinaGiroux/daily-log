@@ -1,0 +1,29 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  lint-and-format:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'npm'
+
+      - name: Install root dependencies
+        run: npm ci
+
+      - name: Run Prettier check
+        run: npx prettier --check "src/**/*.{ts,tsx,json}"
+
+      - name: Run ESLint
+        run: npx eslint "src/**/*.{ts,tsx}"
+
+      - name: Run TypeScript check
+        run: npx tsc --noEmit
