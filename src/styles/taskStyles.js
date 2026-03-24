@@ -13,6 +13,8 @@ export const styles = StyleSheet.create({
     fontSize: 15,
     color: '#1a1a1a',
     paddingHorizontal: 8,
+    minWidth: 160,
+    flexShrink: 1,
   },
   cell: {
     width: COL_WIDTH,
@@ -27,7 +29,6 @@ export const styles = StyleSheet.create({
     backgroundColor: '#ddd',
   },
   headerCell: {
-    width: COL_WIDTH,
     fontWeight: '700',
     color: '#555',
     fontSize: 13,
