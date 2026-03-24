@@ -2,14 +2,14 @@ import { View, ScrollView, Text } from 'react-native';
 import { styles } from '../styles/taskStyles';
 import { TaskItem } from './TaskItem';
 
-const COLUMNS = ['Priority', 'Time', 'Feeling'];
+const COLUMNS = ['Lvl', 'Time', 'Feeling'];
 
 const tasks = [
   { id: '1', title: 'Play Stardew Valley', priority: 'High', time: '1h', feeling: 'Happy' },
   {
     id: '2',
     title: 'Write report for chem lab',
-    priority: 'Medium',
+    priority: 'Med',
     time: '30m',
     feeling: 'Stressed',
   },
@@ -32,7 +32,7 @@ function TableHeader() {
 export function TaskList() {
   return (
     <ScrollView horizontal>
-      <View style={{ flex: 1 }}>
+      <View style={styles.listSection}>
         <TableHeader />
         <View style={styles.divider} />
         {tasks.map((task) => (

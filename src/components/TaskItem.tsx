@@ -16,7 +16,9 @@ export function TaskItem({ task }: { task: Task }) {
       onPress={() => console.log('short press')}
       onLongPress={() => console.log('long press')}
     >
-      <Text style={styles.titleCell}>{task.title}</Text>
+      <Text style={styles.titleCell} numberOfLines={1} ellipsizeMode="tail">
+        {task.title}
+      </Text>
 
       <View style={styles.verticalDivider} />
       <Text style={styles.cell}>{task.priority}</Text>
