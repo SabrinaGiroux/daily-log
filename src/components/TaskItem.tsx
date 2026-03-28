@@ -9,25 +9,33 @@ type Task = {
   feeling: string;
 };
 
-export function TaskItem({ task }: { task: Task }) {
+type TaskItemProps = {
+  task: Task;
+  completed: boolean;
+  onToggle: () => void;
+};
+
+export function TaskItem({ task, completed, onToggle }: TaskItemProps) {
+  const textStyle = completed ? { textDecorationLine: 'line-through' as const, color: '#aaa' } : {};
+
   return (
     <TouchableOpacity
       style={styles.row}
-      onPress={() => console.log('short press')}
+      onPress={onToggle}
       onLongPress={() => console.log('long press')}
     >
-      <Text style={styles.titleCell} numberOfLines={1} ellipsizeMode="tail">
+      <Text style={[styles.titleCell, textStyle]} numberOfLines={1} ellipsizeMode="tail">
         {task.title}
       </Text>
 
       <View style={styles.verticalDivider} />
-      <Text style={styles.cell}>{task.priority}</Text>
+      <Text style={[styles.cell, textStyle]}>{task.priority}</Text>
 
       <View style={styles.verticalDivider} />
-      <Text style={styles.cell}>{task.time}</Text>
+      <Text style={[styles.cell, textStyle]}>{task.time}</Text>
 
       <View style={styles.verticalDivider} />
-      <Text style={styles.cell}>{task.feeling}</Text>
+      <Text style={[styles.cell, textStyle]}>{task.feeling}</Text>
     </TouchableOpacity>
   );
 }

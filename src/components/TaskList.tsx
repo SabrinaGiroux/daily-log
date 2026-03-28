@@ -1,4 +1,5 @@
 import { View, ScrollView, Text } from 'react-native';
+import { useState } from 'react';
 import { styles } from '../styles/taskStyles';
 import { TaskItem } from './TaskItem';
 
@@ -30,13 +31,40 @@ function TableHeader() {
 }
 
 export function TaskList() {
+  const [completedIds, setCompletedIds] = useState<Set<string>>(new Set());
+
+  /**
+   * Removes or adds the id of a task to the completedIds set
+   * @param id
+   */
+  const toggle = (id: string) => {
+    setCompletedIds((prev) => {
+      const next = new Set(prev);
+      // eslint-disable-next-line no-unused-expressions
+      next.has(id) ? next.delete(id) : next.add(id);
+      return next;
+    });
+  };
+
+  // Sorts tasks so completed ones are at the bottom
+  const sortedTasks = [...tasks].sort((a, b) => {
+    const aDone = completedIds.has(a.id) ? 1 : 0;
+    const bDone = completedIds.has(b.id) ? 1 : 0;
+    return aDone - bDone;
+  });
+
   return (
     <ScrollView horizontal>
       <View style={styles.listSection}>
         <TableHeader />
         <View style={styles.divider} />
-        {tasks.map((task) => (
-          <TaskItem key={task.id} task={task} />
+        {sortedTasks.map((task) => (
+          <TaskItem
+            key={task.id}
+            task={task}
+            completed={completedIds.has(task.id)}
+            onToggle={() => toggle(task.id)}
+          />
         ))}
       </View>
     </ScrollView>
