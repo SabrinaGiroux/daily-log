@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { Task } from '@/src/types/Task';
 import {
   Modal,
   View,
@@ -10,14 +11,6 @@ import {
   Platform,
   Pressable,
 } from 'react-native';
-
-type Task = {
-  id: string;
-  title: string;
-  priority: string;
-  time: string;
-  feeling: string;
-};
 
 type TaskModalProps = {
   visible: boolean;
@@ -43,12 +36,17 @@ export function TaskModal({ visible, initial, onSave, onDelete, onClose }: TaskM
       setPriority(initial.priority);
       setTime(initial.time);
       setFeeling(initial.feeling);
+    } else {
+      setTitle('');
+      setPriority('Med');
+      setTime('');
+      setFeeling('Neutral');
     }
   }, [initial, visible]);
 
   const handleSave = () => {
     if (!title.trim()) return;
-    onSave({ title: title.trim(), priority, time, feeling });
+    onSave({ title: title.trim(), priority, time, feeling, completed: false });
     onClose();
   };
 
