@@ -5,26 +5,26 @@ import { TaskItem } from './TaskItem';
 
 const COLUMNS = ['Lvl', 'Time', 'Feeling'];
 
-const tasks = [
-  { id: '1', title: 'Play Stardew Valley', priority: 'High', time: '1h', feeling: 'Happy' },
-  {
-    id: '2',
-    title: 'Write report for chem lab',
-    priority: 'Med',
-    time: '30m',
-    feeling: 'Stressed',
-  },
-];
+type Task = {
+  id: string;
+  title: string;
+  priority: string;
+  time: string;
+  feeling: string;
+};
 
-export function TaskList() {
+type TaskListProps = {
+  tasks: Task[];
+  onTaskEdit: (task: Task) => void;
+};
+
+export function TaskList({ tasks, onTaskEdit }: TaskListProps) {
   const [completedIds, setCompletedIds] = useState<Set<string>>(new Set());
+
   const { width } = useWindowDimensions();
   const styles = useMemo(() => makeTaskStyles(width), [width]);
 
-  /**
-   * Removes or adds the id of a task to the completedIds set
-   * @param id
-   */
+  // Removes or adds the id of a task to the completedIds set
   const toggle = (id: string) => {
     setCompletedIds((prev) => {
       const next = new Set(prev);
@@ -54,6 +54,7 @@ export function TaskList() {
       </View>
     );
   }
+
   return (
     <ScrollView horizontal>
       <View style={styles.listSection}>
@@ -64,6 +65,7 @@ export function TaskList() {
             key={task.id}
             task={task}
             completed={completedIds.has(task.id)}
+            onLongPress={() => onTaskEdit(task)}
             onToggle={() => toggle(task.id)}
           />
         ))}

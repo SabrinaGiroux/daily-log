@@ -14,20 +14,17 @@ type TaskItemProps = {
   task: Task;
   completed: boolean;
   onToggle: () => void;
+  onLongPress: () => void;
 };
 
-export function TaskItem({ task, completed, onToggle }: TaskItemProps) {
+export function TaskItem({ task, completed, onToggle, onLongPress }: TaskItemProps) {
   const { width } = useWindowDimensions();
   const styles = useMemo(() => makeTaskStyles(width), [width]);
 
   const textStyle = completed ? { textDecorationLine: 'line-through' as const, color: '#aaa' } : {};
 
   return (
-    <TouchableOpacity
-      style={styles.row}
-      onPress={onToggle}
-      onLongPress={() => console.log('long press')}
-    >
+    <TouchableOpacity style={styles.row} onPress={onToggle} onLongPress={onLongPress}>
       <Text style={[styles.titleCell, textStyle]} numberOfLines={1} ellipsizeMode="tail">
         {task.title}
       </Text>
