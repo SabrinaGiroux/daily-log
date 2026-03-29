@@ -39,7 +39,7 @@ export function TaskModal({ visible, initial, onSave, onDelete, onClose }: TaskM
     } else {
       setTitle('');
       setPriority('Med');
-      setTime('');
+      setTime('30min');
       setFeeling('Neutral');
     }
   }, [initial, visible]);

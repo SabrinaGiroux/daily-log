@@ -3,23 +3,24 @@ import { TaskList } from '../components/TaskList';
 import { DescriptionArea } from '../components/DescriptionArea';
 import { TaskModal } from '../components/TaskModal';
 import { useState } from 'react';
-
-type Task = {
-  id: string;
-  title: string;
-  priority: string;
-  time: string;
-  feeling: string;
-};
+import { Task } from '@/src/types/Task';
 
 const TASKS = [
-  { id: '1', title: 'Play Stardew Valley', priority: 'High', time: '1h', feeling: 'Happy' },
+  {
+    id: '1',
+    title: 'Play Stardew Valley',
+    priority: 'High',
+    time: '1h',
+    feeling: 'Happy',
+    completed: false,
+  },
   {
     id: '2',
     title: 'Write report for chem lab',
     priority: 'Med',
     time: '30m',
     feeling: 'Stressed',
+    completed: false,
   },
 ];
 
@@ -50,6 +51,16 @@ export default function HomeScreen() {
     }
   };
 
+  const onToggle = (id: string) => {
+    setTasks((prev) => prev.map((t) => (t.id === id ? { ...t, completed: !t.completed } : t)));
+  };
+
+  const handleDelete = () => {
+    if (!editingTask) return;
+    setTasks((prev) => prev.filter((t) => t.id !== editingTask.id));
+    setSheetVisible(false);
+  };
+
   return (
     <View style={styles.container}>
       <ScrollView
@@ -63,7 +74,7 @@ export default function HomeScreen() {
 
         <View>
           <Text style={styles.taskTitle}>Tasks</Text>
-          <TaskList tasks={tasks} onTaskEdit={openEdit} />
+          <TaskList tasks={tasks} onTaskEdit={openEdit} onToggle={onToggle} />
         </View>
       </ScrollView>
 
@@ -77,6 +88,7 @@ export default function HomeScreen() {
         visible={sheetVisible}
         initial={editingTask}
         onSave={handleSave}
+        onDelete={editingTask ? handleDelete : undefined}
         onClose={() => setSheetVisible(false)}
       />
     </View>
