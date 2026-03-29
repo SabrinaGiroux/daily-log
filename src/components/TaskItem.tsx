@@ -1,5 +1,6 @@
-import { Text, TouchableOpacity, View } from 'react-native';
-import { styles } from '../styles/taskStyles';
+import { Text, TouchableOpacity, View, useWindowDimensions } from 'react-native';
+import { makeTaskStyles } from '../styles/taskStyles';
+import { useMemo } from 'react';
 
 type Task = {
   id: string;
@@ -16,6 +17,9 @@ type TaskItemProps = {
 };
 
 export function TaskItem({ task, completed, onToggle }: TaskItemProps) {
+  const { width } = useWindowDimensions();
+  const styles = useMemo(() => makeTaskStyles(width), [width]);
+
   const textStyle = completed ? { textDecorationLine: 'line-through' as const, color: '#aaa' } : {};
 
   return (
