@@ -11,6 +11,7 @@ import {
   Platform,
   Pressable,
 } from 'react-native';
+import { ConfirmModal } from './ConfirmModal';
 
 type TaskModalProps = {
   visible: boolean;
@@ -28,6 +29,7 @@ export function TaskModal({ visible, initial, onSave, onDelete, onClose }: TaskM
   const [priority, setPriority] = useState('Med');
   const [time, setTime] = useState('30min');
   const [feeling, setFeeling] = useState('Neutral');
+  const [confirmingDelete, setConfirmingDelete] = useState(false);
 
   // Pre-fill if editing an existing task
   useEffect(() => {
@@ -119,9 +121,23 @@ export function TaskModal({ visible, initial, onSave, onDelete, onClose }: TaskM
           {/* Save and Delete Actions */}
           <View style={sheet.actions}>
             {onDelete && (
-              <TouchableOpacity style={sheet.deleteBtn} onPress={onDelete}>
-                <Text style={sheet.deleteBtnText}>Delete</Text>
-              </TouchableOpacity>
+              <>
+                {confirmingDelete ? (
+                  <ConfirmModal
+                    message="Your task will be lost forever! Are you sure?"
+                    actionLabel="Delete Task"
+                    onAction={onDelete}
+                    onClose={() => setConfirmingDelete(false)}
+                  />
+                ) : (
+                  <TouchableOpacity
+                    style={sheet.deleteBtn}
+                    onPress={() => setConfirmingDelete(true)}
+                  >
+                    <Text style={sheet.deleteBtnText}>Delete</Text>
+                  </TouchableOpacity>
+                )}
+              </>
             )}
             <TouchableOpacity
               style={[sheet.saveBtn, !title.trim() && sheet.saveBtnDisabled]}
