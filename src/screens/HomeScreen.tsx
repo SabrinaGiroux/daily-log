@@ -51,31 +51,35 @@ export default function HomeScreen() {
   };
 
   return (
-    <ScrollView
-      style={styles.container}
-      contentContainerStyle={styles.content}
-      keyboardShouldPersistTaps="handled"
-    >
-      <Text style={styles.heading}>{'Mon, March 23 2026'}</Text>
+    <View style={styles.container}>
+      <ScrollView
+        style={styles.container}
+        contentContainerStyle={styles.content}
+        keyboardShouldPersistTaps="handled"
+      >
+        <Text style={styles.heading}>{'Mon, March 29 2026'}</Text>
 
-      <DescriptionArea />
+        <DescriptionArea />
 
-      <View>
-        <Text style={styles.taskTitle}>Tasks</Text>
-        <TaskList tasks={tasks} onTaskEdit={openEdit} />
-      </View>
+        <View>
+          <Text style={styles.taskTitle}>Tasks</Text>
+          <TaskList tasks={tasks} onTaskEdit={openEdit} />
+        </View>
+      </ScrollView>
 
+      {/* Create Task Button*/}
       <TouchableOpacity style={styles.modalBtn} onPress={openNew}>
         <Text style={styles.modalIcon}>+</Text>
       </TouchableOpacity>
 
+      {/* Task Modal (Create/Edit)*/}
       <TaskModal
         visible={sheetVisible}
         initial={editingTask}
         onSave={handleSave}
         onClose={() => setSheetVisible(false)}
       />
-    </ScrollView>
+    </View>
   );
 }
 
@@ -110,7 +114,7 @@ const styles = StyleSheet.create({
   modalBtn: {
     position: 'absolute',
     bottom: 16,
-    right: 0,
+    right: 16,
     width: 44,
     height: 44,
     borderRadius: 22,
