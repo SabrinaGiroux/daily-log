@@ -1,4 +1,4 @@
-import { View, ScrollView, Text, useWindowDimensions } from 'react-native';
+import { View, ScrollView, Text, useWindowDimensions, ActivityIndicator } from 'react-native';
 import { useMemo } from 'react';
 import { makeTaskStyles } from '@/src/styles/taskStyles';
 import { TaskItem } from './TaskItem';
@@ -10,11 +10,20 @@ type TaskListProps = {
   tasks: Task[];
   onToggle: (id: string) => void;
   onTaskEdit: (task: Task) => void;
+  loading: boolean;
 };
 
-export function TaskList({ tasks, onToggle, onTaskEdit }: TaskListProps) {
+export function TaskList({ tasks, onToggle, onTaskEdit, loading }: TaskListProps) {
   const { width } = useWindowDimensions();
   const styles = useMemo(() => makeTaskStyles(width), [width]);
+
+  if (loading) {
+    return (
+      <View style={styles.centered}>
+        <ActivityIndicator size="large" color="#1a1a1a" />
+      </View>
+    );
+  }
 
   // Sorts tasks so completed ones are at the bottom
   const sortedTasks = [...tasks].sort((a, b) => Number(a.completed) - Number(b.completed));

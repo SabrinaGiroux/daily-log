@@ -1,11 +1,4 @@
-import {
-  ScrollView,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
-  ActivityIndicator,
-} from 'react-native';
+import { ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { TaskList } from '../components/TaskList';
 import { DescriptionArea } from '../components/DescriptionArea';
 import { TaskModal } from '../components/TaskModal';
@@ -15,14 +8,6 @@ import { useTasks } from '../hooks/useTask';
 export default function HomeScreen() {
   const { tasks, loading, addTask, updateTask, deleteTask, toggleTask } = useTasks();
   const taskModal = useTaskModal({ addTask, updateTask, deleteTask });
-
-  if (loading) {
-    return (
-      <View style={styles.centered}>
-        <ActivityIndicator size="large" color="#1a1a1a" />
-      </View>
-    );
-  }
 
   return (
     <View style={styles.container}>
@@ -37,7 +22,12 @@ export default function HomeScreen() {
 
         <View>
           <Text style={styles.taskTitle}>Tasks</Text>
-          <TaskList tasks={tasks} onTaskEdit={taskModal.openEdit} onToggle={toggleTask} />
+          <TaskList
+            tasks={tasks}
+            onTaskEdit={taskModal.openEdit}
+            onToggle={toggleTask}
+            loading={loading}
+          />
         </View>
       </ScrollView>
 
