@@ -1,53 +1,68 @@
 import { useState, useEffect, useCallback } from 'react';
 import { Task } from '@/src/types/Task';
+import { DailyLog } from '@/src/types/DailyLog';
 import { getTasks, saveTasks } from '@/src/lib/storage';
 
-export function useTasks() {
-  const [tasks, setTasks] = useState<Task[]>([]);
-  const [loading, setLoading] = useState(true);
+type Props = {
+  todaysLog: DailyLog | null;
+  updateLog: (log: DailyLog) => Promise<void>;
+};
+
+export function useTasks({ todaysLog, updateLog }: Props) {
+  const [allTasks, setAllTasks] = useState<Task[]>([]);
+  const [tasksLoading, setLoading] = useState(true);
 
   useEffect(() => {
-    // loads the tasks from async storage
     getTasks().then((stored) => {
-      setTasks(stored);
+      setAllTasks(stored);
       setLoading(false);
     });
   }, []);
 
-  // Helper function to save Task to storage
   const save = useCallback(async (updated: Task[]) => {
-    setTasks(updated);
+    setAllTasks(updated);
     await saveTasks(updated);
   }, []);
 
+  // Only tasks belonging to today's log
+  const tasks = todaysLog ? allTasks.filter((t) => todaysLog.taskIds.includes(t.id)) : [];
+
   const addTask = useCallback(
     async (fields: Omit<Task, 'id'>) => {
+      if (!todaysLog) return;
       const newTask: Task = { id: crypto.randomUUID(), ...fields };
-      await save([...tasks, newTask]);
+      // Save the task itself
+      await save([...allTasks, newTask]);
+      // Add its id to today's log
+      await updateLog({ ...todaysLog, taskIds: [...todaysLog.taskIds, newTask.id] });
     },
-    [tasks, save],
+    [allTasks, todaysLog, updateLog, save],
   );
 
   const updateTask = useCallback(
     async (updated: Task) => {
-      await save(tasks.map((t) => (t.id === updated.id ? updated : t)));
+      await save(allTasks.map((t) => (t.id === updated.id ? updated : t)));
     },
-    [tasks, save],
+    [allTasks, save],
   );
 
   const deleteTask = useCallback(
     async (id: string) => {
-      await save(tasks.filter((t) => t.id !== id));
+      if (!todaysLog) return;
+      // Remove from task store
+      await save(allTasks.filter((t) => t.id !== id));
+      // Remove from today's log
+      await updateLog({ ...todaysLog, taskIds: todaysLog.taskIds.filter((tid) => tid !== id) });
     },
-    [tasks, save],
+    [allTasks, todaysLog, updateLog, save],
   );
 
   const toggleTask = useCallback(
     async (id: string) => {
-      await save(tasks.map((t) => (t.id === id ? { ...t, completed: !t.completed } : t)));
+      await save(allTasks.map((t) => (t.id === id ? { ...t, completed: !t.completed } : t)));
     },
-    [tasks, save],
+    [allTasks, save],
   );
 
-  return { tasks, loading, addTask, updateTask, deleteTask, toggleTask };
+  return { tasks, tasksLoading, addTask, updateTask, deleteTask, toggleTask };
 }

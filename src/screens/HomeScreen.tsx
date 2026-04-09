@@ -7,10 +7,15 @@ import { useTasks } from '../hooks/useTask';
 import { useDailyLogs } from '../hooks/useDailyLog';
 
 export default function HomeScreen() {
-  const { tasks, loading, addTask, updateTask, deleteTask, toggleTask } = useTasks();
-  const { todaysLog, loading: logsLoading, updateDescription } = useDailyLogs();
+  const { todaysLog, loading: logsLoading, updateDescription, updateLog } = useDailyLogs();
+  const { tasks, tasksLoading, addTask, updateTask, deleteTask, toggleTask } = useTasks({
+    todaysLog,
+    updateLog,
+  });
 
   const taskModal = useTaskModal({ addTask, updateTask, deleteTask });
+
+  const loading = tasksLoading || logsLoading;
 
   return (
     <View style={styles.container}>
