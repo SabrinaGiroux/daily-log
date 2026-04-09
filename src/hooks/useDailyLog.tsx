@@ -52,6 +52,7 @@ export function useDailyLogs() {
 
   const moveTask = useCallback(
     async (taskId: string, fromLogId: string, toLogId: string) => {
+      if (fromLogId === toLogId) return;
       await save(
         logs.map((log) => {
           if (log.id === fromLogId)
