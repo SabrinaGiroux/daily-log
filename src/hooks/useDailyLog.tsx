@@ -2,13 +2,27 @@ import { useState, useEffect, useCallback } from 'react';
 import { DailyLog } from '@/src/types/DailyLog';
 import { getDailyLogs, saveDailyLogs } from '@/src/lib/storage';
 
+const todaysDate = () => new Date().toISOString().split('T')[0]; // "YYYY-MM-DD"
+
 export function useDailyLogs() {
   const [logs, setLogs] = useState<DailyLog[]>([]);
+  const [todaysLog, setTodaysLog] = useState<DailyLog | null>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     getDailyLogs().then((stored) => {
+      const today = todaysDate();
+      let existing = stored.find((l) => l.date === today) ?? null;
+
+      // Create today's log if it doesn't exist yet
+      if (!existing) {
+        existing = { id: crypto.randomUUID(), date: today, description: '', taskIds: [] };
+        stored = [...stored, existing];
+        saveDailyLogs(stored);
+      }
+
       setLogs(stored);
+      setTodaysLog(existing);
       setLoading(false);
     });
   }, []);
@@ -16,15 +30,10 @@ export function useDailyLogs() {
   const save = useCallback(async (updated: DailyLog[]) => {
     setLogs(updated);
     await saveDailyLogs(updated);
+    // Keep todaysLog in sync
+    const today = todaysDate();
+    setTodaysLog(updated.find((l) => l.date === today) ?? null);
   }, []);
-
-  const addLog = useCallback(
-    async (fields: Omit<DailyLog, 'id'>) => {
-      const newLog: DailyLog = { id: crypto.randomUUID(), ...fields };
-      await save([...logs, newLog]);
-    },
-    [logs, save],
-  );
 
   const updateLog = useCallback(
     async (updated: DailyLog) => {
@@ -33,14 +42,14 @@ export function useDailyLogs() {
     [logs, save],
   );
 
-  const deleteLog = useCallback(
-    async (id: string) => {
-      await save(logs.filter((l) => l.id !== id));
+  const updateDescription = useCallback(
+    async (description: string) => {
+      if (!todaysLog) return;
+      await updateLog({ ...todaysLog, description });
     },
-    [logs, save],
+    [todaysLog, updateLog],
   );
 
-  // Moves a taskId from one log to another, task itself is untouched
   const moveTask = useCallback(
     async (taskId: string, fromLogId: string, toLogId: string) => {
       await save(
@@ -55,11 +64,5 @@ export function useDailyLogs() {
     [logs, save],
   );
 
-  // Returns the log for today's date, or null
-  const getTodaysLog = useCallback(() => {
-    const today = new Date().toISOString().split('T')[0];
-    return logs.find((l) => l.date === today) ?? null;
-  }, [logs]);
-
-  return { logs, loading, addLog, updateLog, deleteLog, moveTask, getTodaysLog };
+  return { logs, todaysLog, loading, updateDescription, updateLog, moveTask };
 }

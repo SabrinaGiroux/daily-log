@@ -4,9 +4,12 @@ import { DescriptionArea } from '../components/DescriptionArea';
 import { TaskModal } from '../components/TaskModal';
 import { useTaskModal } from '../hooks/useTaskModal';
 import { useTasks } from '../hooks/useTask';
+import { useDailyLogs } from '../hooks/useDailyLog';
 
 export default function HomeScreen() {
   const { tasks, loading, addTask, updateTask, deleteTask, toggleTask } = useTasks();
+  const { todaysLog, loading: logsLoading, updateDescription } = useDailyLogs();
+
   const taskModal = useTaskModal({ addTask, updateTask, deleteTask });
 
   return (
@@ -16,9 +19,9 @@ export default function HomeScreen() {
         contentContainerStyle={styles.content}
         keyboardShouldPersistTaps="handled"
       >
-        <Text style={styles.heading}>{'Mon, March 29 2026'}</Text>
+        <Text style={styles.heading}>{todaysLog?.date ?? ''}</Text>
 
-        <DescriptionArea />
+        <DescriptionArea value={todaysLog?.description ?? ''} onChange={updateDescription} />
 
         <View>
           <Text style={styles.taskTitle}>Tasks</Text>
