@@ -10,7 +10,7 @@
     "web": "expo start --web",
     "lint": "expo lint",
     "prepare": "husky",
-    "test": "jest --watchAll"
+    "test": "jest"
   },
   "jest": {
     "preset": "jest-expo"
@@ -66,6 +66,7 @@
     "jest-expo": "~54.0.17",
     "lint-staged": "^16.4.0",
     "prettier": "^3.8.1",
+    "react-test-renderer": "^19.2.5",
     "typescript": "~5.9.2"
   },
   "private": true
