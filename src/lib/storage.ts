@@ -8,7 +8,6 @@ const KEYS = {
 };
 
 // Tasks
-
 export async function getTasks(): Promise<Task[]> {
   const stored = await AsyncStorage.getItem(KEYS.TASKS);
   return stored ? JSON.parse(stored) : [];
@@ -34,7 +33,6 @@ export async function deleteTask(id: string): Promise<void> {
 }
 
 // Daily Logs
-
 export async function getDailyLogs(): Promise<DailyLog[]> {
   const stored = await AsyncStorage.getItem(KEYS.DAILY_LOGS);
   return stored ? JSON.parse(stored) : [];

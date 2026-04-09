@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback } from 'react';
 import { Task } from '@/src/types/Task';
-import { getTasks, saveTasks } from '@/src/utils/storage';
+import { getTasks, saveTasks } from '@/src/lib/storage';
 
 export function useTasks() {
   const [tasks, setTasks] = useState<Task[]>([]);
