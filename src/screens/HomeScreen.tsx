@@ -5,6 +5,7 @@ import { TaskModal } from '../components/TaskModal';
 import { useTaskModal } from '../hooks/useTaskModal';
 import { useTasks } from '../hooks/useTask';
 import { useDailyLogs } from '../hooks/useDailyLog';
+import { formatDisplayDate } from '@/src/lib/utils';
 
 export default function HomeScreen() {
   const { todaysLog, loading: logsLoading, updateDescription, updateLog } = useDailyLogs();
@@ -24,7 +25,7 @@ export default function HomeScreen() {
         contentContainerStyle={styles.content}
         keyboardShouldPersistTaps="handled"
       >
-        <Text style={styles.heading}>{todaysLog?.date ?? ''}</Text>
+        <Text style={styles.heading}> {todaysLog ? formatDisplayDate(todaysLog.date) : ''}</Text>
 
         <DescriptionArea value={todaysLog?.description ?? ''} onChange={updateDescription} />
 

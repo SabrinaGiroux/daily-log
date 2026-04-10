@@ -1,28 +1,45 @@
 import { useState, useEffect, useCallback } from 'react';
 import { DailyLog } from '@/src/types/DailyLog';
-import { getDailyLogs, saveDailyLogs } from '@/src/lib/storage';
+import { getDailyLogs, getTasks, saveDailyLogs } from '@/src/lib/storage';
+import { Task } from '../types/Task';
 
-const todaysDate = () => new Date().toISOString().split('T')[0]; // "YYYY-MM-DD"
+const todaysDate = () => new Date().toLocaleDateString('en-CA');
 
 export function useDailyLogs() {
   const [logs, setLogs] = useState<DailyLog[]>([]);
   const [todaysLog, setTodaysLog] = useState<DailyLog | null>(null);
   const [loading, setLoading] = useState(true);
-
   useEffect(() => {
-    getDailyLogs().then((stored) => {
+    Promise.all([getDailyLogs(), getTasks()]).then(([stored, storedTasks]) => {
       const today = todaysDate();
-      let existing = stored.find((l) => l.date === today) ?? null;
+      let logs = stored;
+      let todayLog = logs.find((l) => l.date === today) ?? null;
 
-      // Create today's log if it doesn't exist yet
-      if (!existing) {
-        existing = { id: crypto.randomUUID(), date: today, description: '', taskIds: [] };
-        stored = [...stored, existing];
-        saveDailyLogs(stored);
+      if (!todayLog) {
+        const yesterday = new Date();
+        yesterday.setDate(yesterday.getDate() - 1);
+        const yesterdayString = yesterday.toLocaleDateString('en-CA');
+        const yesterdayLog = logs.find((l: DailyLog) => l.date === yesterdayString);
+
+        // Only carry over incomplete tasks
+        const carriedTaskIds = (yesterdayLog?.taskIds ?? []).filter((id: string) => {
+          const task = storedTasks.find((t: Task) => t.id === id);
+          return task && !task.completed;
+        });
+
+        todayLog = {
+          id: crypto.randomUUID(),
+          date: today,
+          description: '',
+          taskIds: carriedTaskIds,
+        };
+
+        logs = [...logs, todayLog];
+        saveDailyLogs(logs);
       }
 
-      setLogs(stored);
-      setTodaysLog(existing);
+      setLogs(logs);
+      setTodaysLog(todayLog);
       setLoading(false);
     });
   }, []);
