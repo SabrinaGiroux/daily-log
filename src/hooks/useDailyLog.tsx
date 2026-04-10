@@ -16,9 +16,11 @@ export function useDailyLogs() {
       let todayLog = logs.find((l) => l.date === today) ?? null;
 
       if (!todayLog) {
-        const yesterday = new Date();
-        yesterday.setDate(yesterday.getDate() - 1);
-        const yesterdayString = yesterday.toLocaleDateString('en-CA');
+        const yesterdayDate = new Date(`${today}T00:00:00`);
+        yesterdayDate.setDate(yesterdayDate.getDate() - 1);
+
+        // Find yesterday's log using the date string
+        const yesterdayString = yesterdayDate.toLocaleDateString('en-CA');
         const yesterdayLog = logs.find((l: DailyLog) => l.date === yesterdayString);
 
         // Only carry over incomplete tasks
