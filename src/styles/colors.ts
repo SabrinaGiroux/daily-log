@@ -1,9 +1,17 @@
 export const colors = {
-  bg: '#f2efec', // warm cream — main background
-  surface: '#EDE6D8', // slightly darker cream — cards, table bg
-  border: '#C8BAA8', // warm taupe — all borders
-  textPrimary: '#2C2420', // dark brown — headings
-  textSecondary: '#7A6A5A', // mid brown — secondary text
-  textMuted: '#9E8E7E', // light brown — placeholders, labels
-  accent: '#3D2E25', // espresso — FAB, dark elements
+  bg: '#F4F6F5',
+  surface: '#FFFFFF',
+  surfaceAlt: '#e9edf2',
+
+  border: '#D1D5DB',
+  divider: '#E5E7EB',
+
+  textPrimary: '#0F172A',
+  textSecondary: '#374151',
+  textMuted: '#6B7280',
+
+  accent: '#1C6E8C',
+  accentSoft: '#D6EAF1',
+
+  header: '#D4B483',
 };

@@ -1,16 +1,23 @@
 import { Ionicons } from '@expo/vector-icons';
 import { Tabs } from 'expo-router';
+import { colors } from '@/src/styles/colors';
+
+const BAR_HEIGHT = 50;
 
 export default function RootLayout() {
   return (
     <Tabs
       screenOptions={{
-        headerStyle: { backgroundColor: '#dfd2c4', shadowColor: 'transparent', elevation: 0 },
+        headerStyle: {
+          backgroundColor: colors.header,
+          shadowColor: 'transparent',
+          height: BAR_HEIGHT,
+        },
         headerTintColor: '#333',
-        headerTitleStyle: { fontWeight: 'bold', fontSize: 18, color: '#333' },
+
         tabBarStyle: {
-          backgroundColor: '#dfd2c4',
-          borderTopWidth: 1,
+          backgroundColor: colors.header,
+          height: BAR_HEIGHT,
           paddingTop: 5,
         },
         tabBarActiveTintColor: '#333',
