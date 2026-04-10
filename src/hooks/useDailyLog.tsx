@@ -2,7 +2,7 @@ import { useState, useEffect, useCallback } from 'react';
 import { DailyLog } from '@/src/types/DailyLog';
 import { getDailyLogs, saveDailyLogs } from '@/src/lib/storage';
 
-const todaysDate = () => new Date().toISOString().split('T')[0]; // "YYYY-MM-DD"
+const todaysDate = () => new Date().toLocaleDateString('en-CA');
 
 export function useDailyLogs() {
   const [logs, setLogs] = useState<DailyLog[]>([]);
