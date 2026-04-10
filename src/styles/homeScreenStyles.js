@@ -48,4 +48,15 @@ export const styles = StyleSheet.create({
     fontSize: 24,
     lineHeight: 26,
   },
+  description: {
+    padding: 14,
+    marginBottom: 24,
+    borderColor: colors.border,
+    borderWidth: 0.5,
+    borderRadius: 12,
+    height: 100,
+    backgroundColor: colors.surface,
+    color: colors.textPrimary,
+    fontSize: 14,
+  },
 });

@@ -1,4 +1,5 @@
-import { StyleSheet, TextInput } from 'react-native';
+import { TextInput } from 'react-native';
+import { styles } from '@/src/styles/homeScreenStyles';
 
 type Props = {
   value: string;
@@ -19,14 +20,3 @@ export function DescriptionArea({ value, onChange }: Props) {
     />
   );
 }
-
-const styles = StyleSheet.create({
-  description: {
-    padding: 5,
-    marginBottom: 32,
-    borderColor: 'black',
-    borderWidth: 1,
-    borderRadius: 10,
-    height: 100,
-  },
-});
