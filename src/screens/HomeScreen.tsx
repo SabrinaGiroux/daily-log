@@ -2,64 +2,20 @@ import { ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-nati
 import { TaskList } from '../components/TaskList';
 import { DescriptionArea } from '../components/DescriptionArea';
 import { TaskModal } from '../components/TaskModal';
-import { useState } from 'react';
-import { Task } from '@/src/types/Task';
-
-const TASKS = [
-  {
-    id: '1',
-    title: 'Play Stardew Valley',
-    priority: 'High',
-    time: '1h',
-    feeling: 'Happy',
-    completed: false,
-  },
-  {
-    id: '2',
-    title: 'Write report for chem lab',
-    priority: 'Med',
-    time: '30m',
-    feeling: 'Stressed',
-    completed: false,
-  },
-];
+import { useTaskModal } from '../hooks/useTaskModal';
+import { useTasks } from '../hooks/useTask';
+import { useDailyLogs } from '../hooks/useDailyLog';
 
 export default function HomeScreen() {
-  const [tasks, setTasks] = useState<Task[]>(TASKS);
+  const { todaysLog, loading: logsLoading, updateDescription, updateLog } = useDailyLogs();
+  const { tasks, tasksLoading, addTask, updateTask, deleteTask, toggleTask } = useTasks({
+    todaysLog,
+    updateLog,
+  });
 
-  const [sheetVisible, setSheetVisible] = useState(false);
-  const [editingTask, setEditingTask] = useState<Task | null>(null);
+  const taskModal = useTaskModal({ addTask, updateTask, deleteTask });
 
-  const openNew = () => {
-    setEditingTask(null);
-    setSheetVisible(true);
-  };
-
-  const openEdit = (task: Task) => {
-    setEditingTask(task);
-    setSheetVisible(true);
-  };
-
-  const handleSave = (fields: Omit<Task, 'id'>) => {
-    if (editingTask) {
-      // Update existing
-      setTasks((prev) => prev.map((t) => (t.id === editingTask.id ? { ...t, ...fields } : t)));
-    } else {
-      // Create new
-      const newTask: Task = { id: Date.now().toString(), ...fields };
-      setTasks((prev) => [...prev, newTask]);
-    }
-  };
-
-  const onToggle = (id: string) => {
-    setTasks((prev) => prev.map((t) => (t.id === id ? { ...t, completed: !t.completed } : t)));
-  };
-
-  const handleDelete = () => {
-    if (!editingTask) return;
-    setTasks((prev) => prev.filter((t) => t.id !== editingTask.id));
-    setSheetVisible(false);
-  };
+  const loading = tasksLoading || logsLoading;
 
   return (
     <View style={styles.container}>
@@ -68,28 +24,33 @@ export default function HomeScreen() {
         contentContainerStyle={styles.content}
         keyboardShouldPersistTaps="handled"
       >
-        <Text style={styles.heading}>{'Mon, March 29 2026'}</Text>
+        <Text style={styles.heading}>{todaysLog?.date ?? ''}</Text>
 
-        <DescriptionArea />
+        <DescriptionArea value={todaysLog?.description ?? ''} onChange={updateDescription} />
 
         <View>
           <Text style={styles.taskTitle}>Tasks</Text>
-          <TaskList tasks={tasks} onTaskEdit={openEdit} onToggle={onToggle} />
+          <TaskList
+            tasks={tasks}
+            onTaskEdit={taskModal.openEdit}
+            onToggle={toggleTask}
+            loading={loading}
+          />
         </View>
       </ScrollView>
 
       {/* Create Task Button*/}
-      <TouchableOpacity style={styles.modalBtn} onPress={openNew}>
+      <TouchableOpacity style={styles.modalBtn} onPress={taskModal.openNew}>
         <Text style={styles.modalIcon}>+</Text>
       </TouchableOpacity>
 
       {/* Task Modal (Create/Edit)*/}
       <TaskModal
-        visible={sheetVisible}
-        initial={editingTask}
-        onSave={handleSave}
-        onDelete={editingTask ? handleDelete : undefined}
-        onClose={() => setSheetVisible(false)}
+        visible={taskModal.sheetVisible}
+        initial={taskModal.editingTask}
+        onSave={taskModal.handleSave}
+        onDelete={taskModal.editingTask ? taskModal.handleDelete : undefined}
+        onClose={taskModal.close}
       />
     </View>
   );

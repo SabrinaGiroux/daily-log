@@ -1,14 +1,16 @@
 import { StyleSheet, TextInput } from 'react-native';
-import { useState } from 'react';
 
-export function DescriptionArea() {
-  const [description, setDescription] = useState('');
+type Props = {
+  value: string;
+  onChange: (text: string) => void;
+};
 
+export function DescriptionArea({ value, onChange }: Props) {
   return (
     <TextInput
       style={styles.description}
-      value={description}
-      onChangeText={(text) => setDescription(text)}
+      value={value}
+      onChangeText={onChange}
       placeholder="Describe your day here"
       placeholderTextColor="#aaa"
       multiline

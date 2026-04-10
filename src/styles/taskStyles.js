@@ -48,5 +48,10 @@ export function makeTaskStyles(width) {
       flex: 1,
       width: TABLE_WIDTH,
     },
+    centered: {
+      flex: 1,
+      justifyContent: 'center',
+      alignItems: 'center',
+    },
   });
 }

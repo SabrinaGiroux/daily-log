@@ -4,5 +4,5 @@ export type DailyLog = {
   id: string;
   date: string;
   description: string;
-  tasks: Task[];
+  taskIds: string[];
 };
