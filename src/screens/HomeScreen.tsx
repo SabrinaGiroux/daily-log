@@ -6,6 +6,7 @@ import { useTaskModal } from '../hooks/useTaskModal';
 import { useTasks } from '../hooks/useTask';
 import { useDailyLogs } from '../hooks/useDailyLog';
 import { formatDisplayDate } from '@/src/lib/utils';
+import { colors } from '@/src/styles/colors';
 
 export default function HomeScreen() {
   const { todaysLog, loading: logsLoading, updateDescription, updateLog } = useDailyLogs();
@@ -60,7 +61,7 @@ export default function HomeScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: colors.bg,
   },
   content: {
     padding: 24,
@@ -71,19 +72,17 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
-  date: {
-    fontSize: 14,
-    color: '#888',
-    marginBottom: 4,
-  },
   heading: {
-    fontSize: 32,
-    fontWeight: '700',
-    color: '#1a1a1a',
-    marginBottom: 32,
+    fontSize: 28,
+    fontWeight: '500',
+    color: colors.textPrimary,
+    marginBottom: 20,
   },
   taskTitle: {
-    fontSize: 26,
+    fontSize: 20,
+    fontWeight: '500',
+    color: colors.textPrimary,
+    marginBottom: 12,
   },
   modalBtn: {
     position: 'absolute',
@@ -92,17 +91,17 @@ const styles = StyleSheet.create({
     width: 44,
     height: 44,
     borderRadius: 22,
-    backgroundColor: '#1a1a1a',
+    backgroundColor: colors.accent,
     alignItems: 'center',
     justifyContent: 'center',
-    shadowColor: '#000',
-    shadowOpacity: 0.15,
+    shadowColor: colors.accent,
+    shadowOpacity: 0.2,
     shadowRadius: 8,
     shadowOffset: { width: 0, height: 2 },
     elevation: 4,
   },
   modalIcon: {
-    color: '#fff',
+    color: colors.bg,
     fontSize: 24,
     lineHeight: 26,
   },
