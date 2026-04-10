@@ -1,5 +1,5 @@
 export const colors = {
-  bg: '#F5F0E8', // warm cream — main background
+  bg: '#f2efec', // warm cream — main background
   surface: '#EDE6D8', // slightly darker cream — cards, table bg
   border: '#C8BAA8', // warm taupe — all borders
   textPrimary: '#2C2420', // dark brown — headings
