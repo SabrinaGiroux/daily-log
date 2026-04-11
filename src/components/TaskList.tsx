@@ -11,9 +11,10 @@ type TaskListProps = {
   onToggle: (id: string) => void;
   onTaskEdit: (task: Task) => void;
   loading: boolean;
+  onReschedule: (task: Task) => void;
 };
 
-export function TaskList({ tasks, onToggle, onTaskEdit, loading }: TaskListProps) {
+export function TaskList({ tasks, onToggle, onTaskEdit, loading, onReschedule }: TaskListProps) {
   const { width } = useWindowDimensions();
   const styles = useMemo(() => makeTaskStyles(width), [width]);
 
@@ -56,6 +57,7 @@ export function TaskList({ tasks, onToggle, onTaskEdit, loading }: TaskListProps
             completed={task.completed}
             onLongPress={() => onTaskEdit(task)}
             onToggle={() => onToggle(task.id)}
+            onReschedule={() => onReschedule(task)}
           />
         ))}
       </View>
