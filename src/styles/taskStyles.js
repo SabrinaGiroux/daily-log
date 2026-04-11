@@ -7,7 +7,8 @@ const NUM_COLS = 3;
 
 export function makeTaskStyles(width) {
   const TABLE_WIDTH = width - PADDING;
-  const TITLE_WIDTH = TABLE_WIDTH - COL_WIDTH * NUM_COLS;
+  const CHECKBOX_WIDTH = 64;
+  const TITLE_WIDTH = TABLE_WIDTH - COL_WIDTH * NUM_COLS - CHECKBOX_WIDTH;
 
   return StyleSheet.create({
     listSection: {

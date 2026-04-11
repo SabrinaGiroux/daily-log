@@ -31,6 +31,8 @@ export function TaskList({ tasks, onToggle, onTaskEdit, loading }: TaskListProps
   function TableHeader() {
     return (
       <View style={styles.row}>
+        <View style={styles.checkboxContainer} />
+
         <Text style={[styles.titleCell, styles.headerCell]}>Task</Text>
         {COLUMNS.map((col) => (
           <View key={col} style={{ flexDirection: 'row' }}>
