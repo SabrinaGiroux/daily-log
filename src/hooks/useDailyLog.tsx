@@ -16,9 +16,11 @@ export function useDailyLogs() {
       let todayLog = logs.find((l) => l.date === today) ?? null;
 
       if (!todayLog) {
-        const yesterday = new Date();
-        yesterday.setDate(yesterday.getDate() - 1);
-        const yesterdayString = yesterday.toLocaleDateString('en-CA');
+        const yesterdayDate = new Date(`${today}T00:00:00`);
+        yesterdayDate.setDate(yesterdayDate.getDate() - 1);
+
+        // Find yesterday's log using the date string
+        const yesterdayString = yesterdayDate.toLocaleDateString('en-CA');
         const yesterdayLog = logs.find((l: DailyLog) => l.date === yesterdayString);
 
         // Only carry over incomplete tasks
@@ -82,5 +84,27 @@ export function useDailyLogs() {
     [logs, save],
   );
 
-  return { logs, todaysLog, loading, updateDescription, updateLog, moveTask };
+  const rescheduleTask = useCallback(
+    async (taskId: string, fromLogId: string, toDate: string) => {
+      let targetLog = logs.find((l) => l.date === toDate);
+      let updatedLogs = logs;
+
+      if (!targetLog) {
+        targetLog = { id: crypto.randomUUID(), date: toDate, description: '', taskIds: [] };
+        updatedLogs = [...logs, targetLog];
+      }
+
+      await save(
+        updatedLogs.map((log) => {
+          if (log.id === fromLogId)
+            return { ...log, taskIds: log.taskIds.filter((id) => id !== taskId) };
+          if (log.date === toDate) return { ...log, taskIds: [...log.taskIds, taskId] };
+          return log;
+        }),
+      );
+    },
+    [logs, save],
+  );
+
+  return { logs, todaysLog, loading, rescheduleTask, updateDescription, updateLog, moveTask };
 }

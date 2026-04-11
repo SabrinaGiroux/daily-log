@@ -15,9 +15,10 @@ type TaskItemProps = {
   completed: boolean;
   onToggle: () => void;
   onLongPress: () => void;
+  onReschedule: () => void;
 };
 
-export function TaskItem({ task, completed, onToggle, onLongPress }: TaskItemProps) {
+export function TaskItem({ task, completed, onToggle, onLongPress, onReschedule }: TaskItemProps) {
   const { width } = useWindowDimensions();
   const styles = useMemo(() => makeTaskStyles(width), [width]);
 
@@ -43,6 +44,10 @@ export function TaskItem({ task, completed, onToggle, onLongPress }: TaskItemPro
 
       <View style={styles.verticalDivider} />
       <Text style={[styles.cell, textStyle]}>{task.feeling}</Text>
+
+      <TouchableOpacity onPress={onReschedule} hitSlop={8}>
+        <Text>📅</Text>
+      </TouchableOpacity>
     </TouchableOpacity>
   );
 }
