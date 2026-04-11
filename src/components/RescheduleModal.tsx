@@ -8,6 +8,7 @@ import {
   ScrollView,
   StyleSheet,
 } from 'react-native';
+import { colors } from '@/src/styles/colors';
 
 type RescheduleModalProps = {
   visible: boolean;
@@ -133,7 +134,7 @@ const styles = StyleSheet.create({
     bottom: 0,
     left: 0,
     right: 0,
-    backgroundColor: '#1c1c1e',
+    backgroundColor: colors.bg,
     borderTopLeftRadius: 20,
     borderTopRightRadius: 20,
     padding: 20,
@@ -143,16 +144,16 @@ const styles = StyleSheet.create({
   handle: {
     width: 40,
     height: 4,
-    backgroundColor: '#444',
+    backgroundColor: colors.textMuted,
     borderRadius: 2,
     alignSelf: 'center',
     marginBottom: 16,
   },
-  title: { color: '#fff', fontSize: 18, fontWeight: '700', marginBottom: 4 },
-  subtitle: { color: '#888', fontSize: 14, marginBottom: 16 },
+  title: { color: colors.textPrimary, fontSize: 18, fontWeight: '700', marginBottom: 4 },
+  subtitle: { color: colors.textSecondary, fontSize: 14, marginBottom: 16 },
   weekRow: { flexDirection: 'row', justifyContent: 'space-between', marginBottom: 4 },
   weekLabel: {
-    color: '#666',
+    color: colors.textMuted,
     fontSize: 11,
     width: '14.28%',
     textAlign: 'center',
@@ -165,9 +166,9 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     borderRadius: 8,
   },
-  dayCellSelected: { backgroundColor: '#4f8ef7' },
-  dayText: { color: '#ddd', fontSize: 13, fontWeight: '600' },
-  dayMonth: { color: '#666', fontSize: 9 },
+  dayCellSelected: { backgroundColor: colors.accent },
+  dayText: { color: colors.textPrimary, fontSize: 13, fontWeight: '600' },
+  dayMonth: { color: colors.textSecondary, fontSize: 9 },
   dayTextSelected: { color: '#fff' },
   actions: { flexDirection: 'row', gap: 12, marginTop: 20 },
   cancelBtn: {
@@ -175,7 +176,7 @@ const styles = StyleSheet.create({
     padding: 14,
     borderRadius: 12,
     borderWidth: 1,
-    borderColor: '#333',
+    borderColor: colors.border,
     alignItems: 'center',
   },
   cancelText: { color: '#aaa', fontWeight: '600' },
@@ -183,7 +184,7 @@ const styles = StyleSheet.create({
     flex: 2,
     padding: 14,
     borderRadius: 12,
-    backgroundColor: '#4f8ef7',
+    backgroundColor: colors.accent,
     alignItems: 'center',
   },
   confirmText: { color: '#fff', fontWeight: '700' },
