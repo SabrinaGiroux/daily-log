@@ -84,5 +84,27 @@ export function useDailyLogs() {
     [logs, save],
   );
 
-  return { logs, todaysLog, loading, updateDescription, updateLog, moveTask };
+  const rescheduleTask = useCallback(
+    async (taskId: string, fromLogId: string, toDate: string) => {
+      let targetLog = logs.find((l) => l.date === toDate);
+      let updatedLogs = logs;
+
+      if (!targetLog) {
+        targetLog = { id: crypto.randomUUID(), date: toDate, description: '', taskIds: [] };
+        updatedLogs = [...logs, targetLog];
+      }
+
+      await save(
+        updatedLogs.map((log) => {
+          if (log.id === fromLogId)
+            return { ...log, taskIds: log.taskIds.filter((id) => id !== taskId) };
+          if (log.date === toDate) return { ...log, taskIds: [...log.taskIds, taskId] };
+          return log;
+        }),
+      );
+    },
+    [logs, save],
+  );
+
+  return { logs, todaysLog, loading, rescheduleTask, updateDescription, updateLog, moveTask };
 }
