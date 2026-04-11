@@ -19,7 +19,7 @@ export function TaskList({ tasks, onToggle, onTaskEdit, loading }: TaskListProps
 
   if (loading) {
     return (
-      <View style={styles.centered}>
+      <View style={styles.row}>
         <ActivityIndicator size="large" color="#1a1a1a" />
       </View>
     );
