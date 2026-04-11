@@ -15,7 +15,8 @@ export function makeTaskStyles(width) {
       backgroundColor: colors.surface,
       borderRadius: 16,
       paddingVertical: 8,
-
+      borderWidth: 1,
+      borderColor: colors.border,
       shadowColor: '#000',
       shadowOpacity: 0.04,
       shadowRadius: 10,
@@ -24,7 +25,7 @@ export function makeTaskStyles(width) {
 
     row: {
       flexDirection: 'row',
-      paddingVertical: 14, // more breathing room
+      paddingVertical: 14,
       paddingHorizontal: 8,
       alignItems: 'center',
     },
@@ -33,7 +34,6 @@ export function makeTaskStyles(width) {
       width: TITLE_WIDTH,
       fontSize: 14,
       color: colors.textPrimary,
-      paddingHorizontal: 10,
     },
 
     cell: {
@@ -61,6 +61,33 @@ export function makeTaskStyles(width) {
       width: 1,
       backgroundColor: colors.divider,
       marginVertical: 6,
+    },
+    checkboxContainer: {
+      width: 32,
+      alignItems: 'center',
+      justifyContent: 'center',
+    },
+
+    checkboxBox: {
+      width: 18,
+      height: 18,
+      borderRadius: 4,
+      borderWidth: 2,
+      borderColor: colors.border,
+      alignItems: 'center',
+      justifyContent: 'center',
+      backgroundColor: 'transparent',
+    },
+
+    checkboxChecked: {
+      backgroundColor: colors.accent,
+      borderColor: colors.textPrimary,
+    },
+
+    checkmark: {
+      color: '#fff',
+      fontSize: 12,
+      fontWeight: '600',
     },
   });
 }

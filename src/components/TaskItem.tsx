@@ -1,4 +1,4 @@
-import { Text, TouchableOpacity, View, useWindowDimensions } from 'react-native';
+import { Pressable, Text, TouchableOpacity, View, useWindowDimensions } from 'react-native';
 import { makeTaskStyles } from '../styles/taskStyles';
 import { useMemo } from 'react';
 
@@ -25,6 +25,12 @@ export function TaskItem({ task, completed, onToggle, onLongPress }: TaskItemPro
 
   return (
     <TouchableOpacity style={styles.row} onPress={onToggle} onLongPress={onLongPress}>
+      <Pressable onPress={onToggle} hitSlop={12} style={styles.checkboxContainer}>
+        <View style={[styles.checkboxBox, completed && styles.checkboxChecked]}>
+          {completed && <Text style={styles.checkmark}>✓</Text>}
+        </View>
+      </Pressable>
+
       <Text style={[styles.titleCell, textStyle]} numberOfLines={1} ellipsizeMode="tail">
         {task.title}
       </Text>
