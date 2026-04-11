@@ -1,4 +1,5 @@
 import { StyleSheet } from 'react-native';
+import { colors } from '@/src/styles/colors';
 
 const PADDING = 24 * 2;
 const COL_WIDTH = 65;
@@ -6,52 +7,88 @@ const NUM_COLS = 3;
 
 export function makeTaskStyles(width) {
   const TABLE_WIDTH = width - PADDING;
-  const TITLE_WIDTH = TABLE_WIDTH - COL_WIDTH * NUM_COLS;
+  const CHECKBOX_WIDTH = 64;
+  const TITLE_WIDTH = TABLE_WIDTH - COL_WIDTH * NUM_COLS - CHECKBOX_WIDTH;
 
   return StyleSheet.create({
+    listSection: {
+      width: TABLE_WIDTH,
+      backgroundColor: colors.surface,
+      borderRadius: 16,
+      paddingVertical: 8,
+      borderWidth: 1,
+      borderColor: colors.border,
+      shadowColor: '#000',
+      shadowOpacity: 0.04,
+      shadowRadius: 10,
+      elevation: 2,
+    },
+
     row: {
       flexDirection: 'row',
-      paddingVertical: 10,
+      paddingVertical: 14,
+      paddingHorizontal: 8,
       alignItems: 'center',
     },
+
     titleCell: {
-      fontSize: 13,
-      color: '#1a1a1a',
-      paddingHorizontal: 4,
       width: TITLE_WIDTH,
+      fontSize: 14,
+      color: colors.textPrimary,
     },
+
     cell: {
       width: COL_WIDTH,
       fontSize: 13,
-      color: '#1a1a1a',
-      paddingHorizontal: 4,
+      color: colors.textSecondary,
       textAlign: 'center',
     },
-    verticalDivider: {
-      width: StyleSheet.hairlineWidth,
-      alignSelf: 'stretch',
-      backgroundColor: '#ddd',
-    },
+
     headerCell: {
-      fontWeight: '700',
-      color: '#555',
-      fontSize: 13,
+      fontSize: 11,
+      color: colors.textMuted,
       textTransform: 'uppercase',
-      paddingHorizontal: 4,
+      letterSpacing: 1,
       textAlign: 'center',
     },
+
     divider: {
-      height: StyleSheet.hairlineWidth,
-      backgroundColor: '#ddd',
+      height: 1,
+      backgroundColor: colors.divider,
+      marginHorizontal: 8,
     },
-    listSection: {
-      flex: 1,
-      width: TABLE_WIDTH,
+
+    verticalDivider: {
+      width: 1,
+      backgroundColor: colors.divider,
+      marginVertical: 6,
     },
-    centered: {
-      flex: 1,
-      justifyContent: 'center',
+    checkboxContainer: {
+      width: 32,
       alignItems: 'center',
+      justifyContent: 'center',
+    },
+
+    checkboxBox: {
+      width: 18,
+      height: 18,
+      borderRadius: 4,
+      borderWidth: 2,
+      borderColor: colors.border,
+      alignItems: 'center',
+      justifyContent: 'center',
+      backgroundColor: 'transparent',
+    },
+
+    checkboxChecked: {
+      backgroundColor: colors.accent,
+      borderColor: colors.textPrimary,
+    },
+
+    checkmark: {
+      color: '#fff',
+      fontSize: 12,
+      fontWeight: '600',
     },
   });
 }
