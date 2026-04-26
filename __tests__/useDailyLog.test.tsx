@@ -1,6 +1,6 @@
 import { renderHook, act, waitFor } from '@testing-library/react-native';
 import { useDailyLogs } from '@/src/hooks/useDailyLog';
-import { getDailyLogs, saveDailyLogs } from '@/src/lib/storage';
+import { getDailyLogs, saveDailyLogs, getTasks } from '@/src/lib/storage';
 import { DailyLog } from '@/src/types/DailyLog';
 import mockAsyncStorage from '@react-native-async-storage/async-storage/jest/async-storage-mock';
 
@@ -9,6 +9,7 @@ jest.mock('@react-native-async-storage/async-storage', () => mockAsyncStorage);
 jest.mock('@/src/lib/storage', () => ({
   getDailyLogs: jest.fn(),
   saveDailyLogs: jest.fn(),
+  getTasks: jest.fn(),
 }));
 
 const TODAY = '2026-04-09';
@@ -23,9 +24,10 @@ const mockLog = (overrides?: Partial<DailyLog>): DailyLog => ({
 
 beforeEach(() => {
   jest.clearAllMocks();
-  jest.useFakeTimers().setSystemTime(new Date('2026-04-09'));
+  jest.useFakeTimers().setSystemTime(new Date('2026-04-09T12:00:00'));
   (getDailyLogs as jest.Mock).mockResolvedValue([]);
   (saveDailyLogs as jest.Mock).mockResolvedValue(undefined);
+  (getTasks as jest.Mock).mockResolvedValue([]);
 });
 
 afterEach(() => {

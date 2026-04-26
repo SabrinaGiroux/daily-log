@@ -12,8 +12,8 @@ export function useDailyLogs() {
   useEffect(() => {
     Promise.all([getDailyLogs(), getTasks()]).then(([stored, storedTasks]) => {
       const today = todaysDate();
-      let logs = stored;
-      let todayLog = logs.find((l) => l.date === today) ?? null;
+      let updatedLogs = stored;
+      let todayLog = updatedLogs.find((l) => l.date === today) ?? null;
 
       if (!todayLog) {
         const yesterdayDate = new Date(`${today}T00:00:00`);
@@ -21,7 +21,7 @@ export function useDailyLogs() {
 
         // Find yesterday's log using the date string
         const yesterdayString = yesterdayDate.toLocaleDateString('en-CA');
-        const yesterdayLog = logs.find((l: DailyLog) => l.date === yesterdayString);
+        const yesterdayLog = updatedLogs.find((l: DailyLog) => l.date === yesterdayString);
 
         // Only carry over incomplete tasks
         const carriedTaskIds = (yesterdayLog?.taskIds ?? []).filter((id: string) => {
@@ -36,11 +36,11 @@ export function useDailyLogs() {
           taskIds: carriedTaskIds,
         };
 
-        logs = [...logs, todayLog];
-        saveDailyLogs(logs);
+        updatedLogs = [...updatedLogs, todayLog];
+        saveDailyLogs(updatedLogs);
       }
 
-      setLogs(logs);
+      setLogs(updatedLogs);
       setTodaysLog(todayLog);
       setLoading(false);
     });
