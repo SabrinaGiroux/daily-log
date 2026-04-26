@@ -31,7 +31,6 @@ describe('TaskList', () => {
       { title: 'Done Task', completed: true },
       { title: 'Todo Task', completed: false },
     ]);
-    const { getAllByText } = render(<TaskList {...defaultProps} tasks={tasks} />);
 
     // Get all task title elements and check order
     const { queryAllByText } = render(<TaskList {...defaultProps} tasks={tasks} />);
